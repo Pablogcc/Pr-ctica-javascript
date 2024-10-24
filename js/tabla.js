@@ -7,9 +7,9 @@ const datosCampos = [
     { nombre: 'matías', apellidos: 'fernández', telefono: '102938475', email: 'carlos@gmail.com', sexo: 'masculino' },
     { nombre: 'pabolo', apellidos: 'fernández', telefono: '102938456', email: 'pabolo@gmail.com', sexo: 'masculino' },
     { nombre: 'andrés', apellidos: 'martínez', telefono: '102938456', email: 'pabolo@gmail.com', sexo: 'femenino' }
-    
 
-    
+
+
 ];
 
 // Rellenamos los datos de de datosCampo en lista de usuarios 
@@ -19,8 +19,8 @@ function cargarDatos() {
 
     datosCampos.forEach(datos => {
         // Aquí creamos las filas para cada usuario con sus campos
-        const fila = document.createElement('tr');  
-        
+        const fila = document.createElement('tr');
+
 
 
         // Crear nombre en la lista de usuraios
@@ -45,7 +45,7 @@ function cargarDatos() {
         elEmail.textContent = datos.email;
         fila.appendChild(elEmail);
 
-        const  elSexo= document.createElement('td');
+        const elSexo = document.createElement('td');
         elSexo.textContent = datos.sexo;
         fila.appendChild(elSexo);
 
@@ -66,41 +66,45 @@ function cargarDatos() {
 
 
 // Aquí hacemos que todos los datos de "Lista de usuarios"
- cargarDatos();
- 
- 
+cargarDatos();
+
+
 
 
 
 
 // Esto va a ser para que cuando nosotros le demos a la X se elimine toda la fila del usuario
-//
-    document.getElementById('tabla').addEventListener('click', function(event) {
-        if (event.target.classList.contains('eliminar')) {
-            event.target.closest('tr').remove(); 
-        }
+document.querySelector('#tabla').onclick = function (event) {
+    // Si tu le das al botón de eliminar, verifica con el contains que contiene la clase 'eliminar' y con el classList lo borras
+    if (event.target.classList.contains('eliminar')) {
+        //Con el closest('tr') selecciona toda la fila que quieres borrar
+        event.target.closest('tr').remove();
+    }
+};
+
+
+// Creamos la manera de filtrar
+
+document.getElementById('filtrar').addEventListener('input', (input) => {
+    // El texto hace que sea en minúsculas
+    const texto = input.target.value.toLowerCase();
+    // Esto selecciona todas las filas del array que hemos creado en la tabla de lista de usuarios, y sirve para poder filtrar con el filter
+    const filas = Array.from(document.querySelectorAll('#tabla tbody tr'));
+
+ 
+    const filasFiltro = filas.filter(fila => {
+        // Aquí al filtrar te pone todo en minúsculas el nombre
+        const nombre = fila.cells[0].textContent.toLowerCase(); 
+        // Aquí al filtrar te pone todo en minúsculas el apellido
+        const apellidos = fila.cells[1].textContent.toLowerCase(); 
+        // Aquí filtramos con las 3 primeras letras y que sea solo por el nombre o el apellido
+        return (texto.length < 3 || nombre.includes(texto) || apellidos.includes(texto)); 
     });
 
-
-    const filtro = document.getElementById('filtrar');
-//Aquí creamos el input cuando escribimos
-filtro.addEventListener('input', function () {
-    const texto = filtro.value.toLowerCase(); 
-    //Seleccionamos todo menos la primera fila, la cabecera 
-    const filas = document.querySelectorAll('#tabla tbody tr'); 
-
-    filas.forEach(function (fila) {
-        const nombre = fila.cells[0].textContent.toLowerCase(); 
-        const apellidos = fila.cells[1].textContent.toLowerCase(); 
-
-        // Aquí se hace que si hay menos de tres letras, se siguen mostrando todas las filas
-        if (texto.length < 3) {
-            fila.style.display = ''; 
-        } else if (nombre.includes(texto) || apellidos.includes(texto)) {
-            fila.style.display = ''; 
-        } else {
-            fila.style.display = 'none'; 
-        }
+     
+     // Aquí pasa por todas las filas y pone las filtradas por el buscador, si no se quita
+    filas.forEach(fila => {
+        fila.style.display = filasFiltro.includes(fila) ? '' : 'none';
     });
 });
-        
+
