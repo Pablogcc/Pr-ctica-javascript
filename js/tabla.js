@@ -2,26 +2,52 @@
 
 // Estos son los datos de la lista de usuarios
 const datosCampos = [
-    { nombre: 'pablo', apellidos: 'garcía', telefono: '123456789', email: 'pablo@gmail.com', sexo: 'masculino' },
+   // { nombre: 'pablo', apellidos: 'garcía', telefono: '123456789', email: 'pablo@gmail.com', sexo: 'masculino' },
     { nombre: 'amanda', apellidos: 'rodríguez', telefono: '298347566', email: 'pablo@gmail.com', sexo: 'femenino' },
-    { nombre: 'matías', apellidos: 'fernández', telefono: '102938475', email: 'carlos@gmail.com', sexo: 'masculino' }
+    { nombre: 'matías', apellidos: 'fernández', telefono: '102938475', email: 'carlos@gmail.com', sexo: 'masculino' },
+    { nombre: 'pabolo', apellidos: 'fernández', telefono: '102938456', email: 'pabolo@gmail.com', sexo: 'masculino' }
     
 ];
 
 // Rellenamos los datos de de datosCampo en lista de usuarios
 function cargarDatos() {
+    //con esto hacemos que los usuarios ser rellenen en la tabla
     const tabla = document.getElementById('tabla').getElementsByTagName('tbody')[0];
 
     datosCampos.forEach(usuario => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${usuario.nombre}</td>
-            <td>${usuario.apellidos}</td>
-            <td>${usuario.telefono}</td>
-            <td>${usuario.email}</td>
-            <td>${usuario.sexo}</td>
-            <td><button class="eliminar">X</button></td>
-        `;
+        // Aquí creamos las filas para cada usuario con sus campos
+        const fila = document.createElement('tr');  
+        
+        // Creamos y añadimos las celdas para cada propiedad del usuario
+        const celdaNombre = document.createElement('td');
+        celdaNombre.textContent = usuario.nombre;
+        fila.appendChild(celdaNombre);
+
+        const celdaApellidos = document.createElement('td');
+        celdaApellidos.textContent = usuario.apellidos;
+        fila.appendChild(celdaApellidos);
+
+        const celdaTelefono = document.createElement('td');
+        celdaTelefono.textContent = usuario.telefono;
+        fila.appendChild(celdaTelefono);
+
+        const celdaEmail = document.createElement('td');
+        celdaEmail.textContent = usuario.email;
+        fila.appendChild(celdaEmail);
+
+        const celdaSexo = document.createElement('td');
+        celdaSexo.textContent = usuario.sexo;
+        fila.appendChild(celdaSexo);
+
+        // Creamos y añadimos el botón de eliminar
+        const celdaAccion = document.createElement('td');
+        const botonEliminar = document.createElement('button');
+        botonEliminar.textContent = 'X';
+        botonEliminar.classList.add('eliminar');
+        celdaAccion.appendChild(botonEliminar);
+        fila.appendChild(celdaAccion);
+
+        // Añadimos la fila a la tabla
         tabla.appendChild(fila);
     });
 }
